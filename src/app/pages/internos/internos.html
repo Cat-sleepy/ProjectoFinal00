@@ -46,7 +46,14 @@
       <input id="nome" [(ngModel)]="internoSelecionado.nome" name="nome" />
 
       <label for="anoInternato">Ano de Internato</label>
-      <input id="anoInternato" type="number" [(ngModel)]="internoSelecionado.anoInternato" name="anoInternato" />
+      <input
+        id="anoInternato"
+        type="number"
+        [(ngModel)]="internoSelecionado.anoInternato"
+        name="anoInternato"
+        min="1"
+        max="5"
+      />
 
       <label for="estado">Estado</label>
       <input id="estado" [(ngModel)]="internoSelecionado.estado" name="estado" />

@@ -7,27 +7,28 @@ import { Escala } from '../models/escala';
 })
 export class EscalaService {
   atribuirEscala = new Subject<void>();
-escalas: Escala[] = [
-  {
-    id: 1,
-    data: '2026-03-10',
-    internos: [
-      { id: 1, nome: 'Ana Silva', anoInternato: 1, estado: 'Ativo' },
-      { id: 3, nome: 'Mariana Sousa', anoInternato: 1, estado: 'Ativo' },
-      { id: 4, nome: 'Pedro Lima', anoInternato: 1, estado: 'Ativo' }
-    ],
-    atribuicao: 'Urgência Dia'
-  },
-  {
-    id: 2,
-    data: '2026-03-11',
-    internos: [
-      { id: 2, nome: 'João Costa', anoInternato: 1, estado: 'Ativo' },
-      { id: 5, nome: 'Rita Lopes', anoInternato: 3, estado: 'Ativo' }
-    ],
-    atribuicao: 'Urgência Noite'
-  }
-];
+
+  escalas: Escala[] = [
+    {
+      id: 1,
+      data: '2026-03-10',
+      internos: [
+        { id: 1, nome: 'Ana Silva', anoInternato: 1, estado: 'Ativo' },
+        { id: 3, nome: 'Mariana Sousa', anoInternato: 1, estado: 'Ativo' },
+        { id: 4, nome: 'Pedro Lima', anoInternato: 1, estado: 'Ativo' }
+      ],
+      atribuicao: 'Urgência Dia'
+    },
+    {
+      id: 2,
+      data: '2026-03-11',
+      internos: [
+        { id: 2, nome: 'João Costa', anoInternato: 1, estado: 'Ativo' },
+        { id: 5, nome: 'Rita Lopes', anoInternato: 3, estado: 'Ativo' }
+      ],
+      atribuicao: 'Urgência Noite'
+    }
+  ];
 
   constructor() {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -52,29 +53,59 @@ escalas: Escala[] = [
   }
 
   getEscalas(): Escala[] {
-    return this.escalas;
+    return [...this.escalas].sort(
+      (a, b) => new Date(a.data).getTime() - new Date(b.data).getTime()
+    );
   }
 
   validarEscala(escala: Escala): boolean {
-  const anos = escala.internos.map(i => i.anoInternato);
+    const anos = escala.internos.map(i => i.anoInternato);
 
-  if (escala.atribuicao === 'Urgência Dia') {
-    return escala.internos.length === 3 && anos.every(ano => ano === 1);
+    if (escala.atribuicao === 'Urgência Dia') {
+      return escala.internos.length === 3 && anos.every(ano => ano === 1);
+    }
+
+    if (escala.atribuicao === 'Urgência Noite') {
+      const primeiroAno = anos.filter(ano => ano === 1).length;
+      const outrosAnos = anos.filter(ano => [2, 3, 4, 5].includes(ano)).length;
+
+      return escala.internos.length === 2 && primeiroAno === 1 && outrosAnos === 1;
+    }
+
+    if (escala.atribuicao === 'Residência Noite') {
+      return escala.internos.length === 1 && [2, 3, 4, 5].includes(anos[0]);
+    }
+
+    return false;
   }
 
-  if (escala.atribuicao === 'Urgência Noite') {
-    const primeiroAno = anos.filter(ano => ano === 1).length;
-    const outrosAnos = anos.filter(ano => [2, 3, 4, 5].includes(ano)).length;
+  existeInternoRepetidoNoMesmoDia(escala: Escala): boolean {
+    const idsDaEscalaAtual = escala.internos.map(i => i.id);
 
-    return escala.internos.length === 2 && primeiroAno === 1 && outrosAnos === 1;
+    const idsUnicos = new Set(idsDaEscalaAtual);
+    if (idsUnicos.size !== idsDaEscalaAtual.length) {
+      return true;
+    }
+
+    return this.escalas.some(e => {
+      if (e.data !== escala.data) return false;
+      if (e.id === escala.id) return false;
+
+      return e.internos.some(internoExistente =>
+        idsDaEscalaAtual.includes(internoExistente.id)
+      );
+    });
   }
 
-  if (escala.atribuicao === 'Residência Noite') {
-    return escala.internos.length === 1 && [2, 3, 4, 5].includes(anos[0]);
+  existeAtribuicaoRepetidaNoMesmoDia(escala: Escala): boolean {
+    return this.escalas.some(e => {
+      return (
+        e.data === escala.data &&
+        e.atribuicao === escala.atribuicao &&
+        e.id !== escala.id
+      );
+    });
   }
-
-  return false;
-}
 
   criarEscala(novaEscala: Escala) {
     const novoId =
