@@ -8,15 +8,33 @@ import { Interno } from '../models/interno';
 export class InternosService {
   abrirNovoInterno = new Subject<void>();
 
-  triggerNovoInterno() {
-    this.abrirNovoInterno.next();
-  }
-
   internos: Interno[] = [
     { id: 1, nome: 'Ana Silva', anoInternato: 1, estado: 'Ativo' },
     { id: 2, nome: 'João Costa', anoInternato: 2, estado: 'Indisponível' },
     { id: 3, nome: 'Mariana Sousa', anoInternato: 3, estado: 'Sem atribuição' }
   ];
+
+  constructor() {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    const dadosGuardados = localStorage.getItem('internos');
+
+    if (dadosGuardados) {
+      this.internos = JSON.parse(dadosGuardados);
+    } else {
+      this.guardarInternos();
+    }
+  }
+}
+
+  triggerNovoInterno() {
+    this.abrirNovoInterno.next();
+  }
+
+  guardarInternos() {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    localStorage.setItem('internos', JSON.stringify(this.internos));
+  }
+}
 
   getInternos(): Interno[] {
     return this.internos;
@@ -30,10 +48,12 @@ export class InternosService {
 
     novoInterno.id = novoId;
     this.internos.push(novoInterno);
+    this.guardarInternos();
   }
 
   apagarInterno(id: number) {
     this.internos = this.internos.filter(interno => interno.id !== id);
+    this.guardarInternos();
   }
 
   editarInterno(internoAtualizado: Interno) {
@@ -43,6 +63,7 @@ export class InternosService {
 
     if (index !== -1) {
       this.internos[index] = internoAtualizado;
+      this.guardarInternos();
     }
   }
 }

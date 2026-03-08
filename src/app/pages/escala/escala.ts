@@ -23,27 +23,38 @@ export class Escalas {
   }
 
   novaEscala() {
-    this.escalaSelecionada = {
-      id: 0,
-      data: '',
-      interno: {
-        id: 0,
-        nome: ''
-      },
-      periodoDia: '',
-      atribuicao: ''
-    };
-  }
+  this.escalaSelecionada = {
+    id: 0,
+    data: '',
+    internos: [],
+    atribuicao: 'Urgência Dia'
+  };
+}
 
   editar(escala: Escala) {
     this.escalaSelecionada = {
       ...escala,
-      interno: { ...escala.interno }
+      internos: [...escala.internos]
     };
   }
 
   guardar() {
-    console.log('guardar escala');
+    if (!this.escalaSelecionada) return;
+
+    const escalaValida = this.escalaService.validarEscala(this.escalaSelecionada);
+
+    if (!escalaValida) {
+      alert('A combinação de atribuição, período e internos não é válida.');
+      return;
+    }
+
+    if (this.escalaSelecionada.id === 0) {
+      this.escalaService.criarEscala(this.escalaSelecionada);
+    } else {
+      this.escalaService.editarEscala(this.escalaSelecionada);
+    }
+
+    this.escalas = this.escalaService.getEscalas();
     this.escalaSelecionada = null;
   }
 
@@ -52,6 +63,7 @@ export class Escalas {
   }
 
   apagar(id: number) {
-    console.log('apagar escala', id);
+    this.escalaService.apagarEscala(id);
+    this.escalas = this.escalaService.getEscalas();
   }
 }

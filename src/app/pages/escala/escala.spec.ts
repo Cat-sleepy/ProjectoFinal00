@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Escala } from './escala';
+import { Escalas } from './escala';
 
 describe('Escala', () => {
-  let component: Escala;
-  let fixture: ComponentFixture<Escala>;
+  let component: Escalas;
+  let fixture: ComponentFixture<Escalas>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Escala],
+      imports: [Escalas],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Escala);
+    fixture = TestBed.createComponent(Escalas);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

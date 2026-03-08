@@ -1,10 +1,8 @@
+import { Interno } from './interno';
+
 export interface Escala {
   id: number;
   data: string;
-  interno: {
-    id: number;
-    nome: string;
-  };
-  periodoDia: string;
-  atribuicao: string;
+  internos: Interno[];
+  atribuicao: 'Urgência Dia' | 'Urgência Noite' | 'Residência Noite';
 }

@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { InternosService } from '../shared/services/internosService';
+import { EscalaService } from '../shared/services/escalaService';
 
 @Component({
   selector: 'app-header',
@@ -10,20 +12,25 @@ import { InternosService } from '../shared/services/internosService';
   styleUrl: './header.css',
 })
 export class Header {
-  //protected readonly titulo: string = 'CareGrid';
   logo: string = 'logo.png';
-  titulo: string = "";
+  titulo: string = '';
 
-  constructor(private internosService: InternosService) {}
+  constructor(
+    private router: Router,
+    private internosService: InternosService,
+    private escalaService: EscalaService
+  ) {}
 
-novoInterno() {
-  this.internosService.triggerNovoInterno();
-}
+  novoInterno() {
+    this.router.navigate(['/internos']).then(() => {
+      this.internosService.triggerNovoInterno();
+    });
+  }
 
-  
-
-  clicar() {
-    alert('Botão clicado');
+  novaAtribuicao() {
+    this.router.navigate(['/escala']).then(() => {
+      this.escalaService.triggerNovaEscala();
+    });
   }
 
 }
