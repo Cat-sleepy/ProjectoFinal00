@@ -1,0 +1,60 @@
+<section class="pagina-internos">
+  <div class="topo-pagina">
+    <div>
+      <h2>Internos</h2>
+      <p>Gestão de Internos na especialidade de Medicina Interna.</p>
+    </div>
+
+  </div>
+
+  <div class="tabela-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Ano de Internato</th>
+          <th>Estado</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (interno of internos; track interno.id) {
+          <tr>
+            <td>{{ interno.nome }}</td>
+            <td>{{ interno.anoInternato }}.º</td>
+            <td>{{ interno.estado }}</td>
+            <td class="acoes">
+              <button class="btn-secundario" (click)="editar(interno)">Editar</button>
+              <button class="btn-perigo" (click)="apagar(interno.id)">X</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4">Ainda não existem internos.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (internoSelecionado) {
+    <div class="form-edicao">
+      <h3>Adicionar/Editar Interno</h3>
+
+      <label for="nome">Nome</label>
+      <input id="nome" [(ngModel)]="internoSelecionado.nome" name="nome" />
+
+      <label for="anoInternato">Ano de Internato</label>
+      <input id="anoInternato" type="number" [(ngModel)]="internoSelecionado.anoInternato" name="anoInternato" />
+
+      <label for="estado">Estado</label>
+      <input id="estado" [(ngModel)]="internoSelecionado.estado" name="estado" />
+
+      <div class="acoes-form">
+        <button (click)="guardar()">Guardar</button>
+        <button type="button" (click)="cancelar()">Cancelar</button>
+      </div>
+    </div>
+  }
+</section>

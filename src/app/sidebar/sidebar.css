@@ -1,0 +1,53 @@
+.sidebar {
+  position: fixed;
+  top: 180px;
+  left: 0;
+  width: 220px;
+  height: calc(100vh - 180px);
+
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  /* border-right: 1px solid rgba(0, 0, 0, 0.08); */
+}
+
+.sidebar a {
+  position: relative;
+
+  display: block;
+  padding: 12px 14px;
+  border-radius: 10px;
+
+  text-decoration: none;
+  color: #374151;
+  font-weight: 500;
+}
+
+.sidebar a:hover {
+  background: rgba(59,130,246,0.08);
+}
+
+.sidebar a.ativo {
+  color: var(--primary-color);
+  background: rgba(59,130,246,0.08);
+}
+
+.sidebar a.ativo::before {
+  content: "";
+
+  position: absolute;
+  left: -14px;
+  top: 6px;
+  bottom: 6px;
+
+  width: 4px;
+  border-radius: 2px;
+
+  background: var(--primary-color);
+}

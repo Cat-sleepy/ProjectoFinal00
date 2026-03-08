@@ -1,0 +1,85 @@
+.pagina-internos {
+  margin-top: 60px;
+  padding: 24px;
+}
+
+.topo-pagina {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.topo-pagina h2 {
+  margin: 0 0 8px;
+  font-size: 1.75rem;
+}
+
+.topo-pagina p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.topo-pagina button {
+  height: 40px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 12px;
+  background: var(--primary-color);
+  color: white;
+  cursor: pointer;
+}
+
+.tabela-container {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+th {
+  background: rgba(0, 0, 0, 0.03);
+  font-weight: 600;
+}
+
+tbody tr:hover {
+  background: rgba(59, 130, 246, 0.04);
+}
+
+.acoes {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-secundario,
+.btn-perigo {
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-secundario {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.btn-perigo {
+  background: #fee2e2;
+  color: #b91c1c;
+}

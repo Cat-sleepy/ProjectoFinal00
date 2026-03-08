@@ -1,0 +1,14 @@
+<div class="cabecalho">
+  <a class="logo" routerLink="/">
+    <img [src]="logo" alt="Logo CareGrid">
+  </a>
+
+  <div class="menu">
+    <input type="text" placeholder="Pesquisar..." />
+
+    <div class="opcoes">
+      <button>Nova Atribuição</button>
+      <button (click)="novoInterno()">Adicionar Interno</button>
+    </div>
+  </div>
+</div>

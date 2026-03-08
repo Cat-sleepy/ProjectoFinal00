@@ -1,0 +1,87 @@
+.cabecalho {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 120px;
+  padding: 12px 24px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.08); */
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: flex-end;
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.logo img {
+  height: 110px;
+  width: auto;
+  display: block;
+}
+
+.logo h1 {
+  display: none;
+}
+
+.logo:hover {
+  opacity: 0.85;
+}
+
+.menu {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.menu input {
+  height: 40px;
+  width: 260px;
+  max-width: 100%;
+  padding: 0 14px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.opcoes {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+button {
+  height: 40px;
+  padding: 0 16px;
+
+  border: solid 0.1rem var(--primary-color);
+  background: var(--primary-color);
+  color: white;
+  border-radius: 12px;
+
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.85;
+  
+}

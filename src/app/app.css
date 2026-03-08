@@ -1,0 +1,30 @@
+
+/* Reset simples */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary-color: #605DC8;
+  --secondary-color: #8B89E6;
+  --accent-color: #e8e7fa;
+  --shadow-color: #E8E8E8;
+}
+
+
+.app-layout {
+  display: flex;
+}
+
+.app-container {
+  margin-left: 220px;
+  padding-top: 104px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 24px;
+}
+
+@media (max-width: 900px) {
+}

@@ -1,0 +1,82 @@
+<section class="pagina-escala">
+  <div class="topo-pagina">
+    <div>
+      <h2>Escala</h2>
+      <p>Gestão da escala dos internos da especialidade de Medicina Interna.</p>
+    </div>
+
+    <div class="topo-acoes">
+      <button class="btn-secundario">Mensal</button>
+      <button class="btn-secundario">Trimestral</button>
+      <button>Nova Atribuição</button>
+    </div>
+  </div>
+
+  <div class="filtros">
+    <input type="month" />
+
+    <select>
+      <option value="">Todos os internos</option>
+    </select>
+
+    <select>
+      <option value="">Todos os períodos</option>
+      <option value="manha">Manhã</option>
+      <option value="tarde">Tarde</option>
+      <option value="noite">Noite</option>
+    </select>
+  </div>
+
+  <div class="tabela-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Interno</th>
+          <th>Período do Dia</th>
+          <th>Atribuição</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (escala of escalas; track escala.id) {
+          <tr>
+            <td>{{ escala.data }}</td>
+            <td>{{ escala.interno.nome }}</td>
+            <td>{{ escala.periodoDia }}</td>
+            <td>{{ escala.atribuicao }}</td>
+            <td class="acoes">
+              <button class="btn-secundario" (click)="editar(escala)">Editar</button>
+              <button class="btn-perigo" (click)="apagar(escala.id)">X</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5">Ainda não existem escalas.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (escalaSelecionada) {
+    <div class="form-edicao">
+      <h3>{{ escalaSelecionada.id === 0 ? 'Nova Atribuição' : 'Editar Escala' }}</h3>
+
+      <label for="data">Data</label>
+      <input id="data" [(ngModel)]="escalaSelecionada.data" name="data" />
+
+      <label for="periodoDia">Período do Dia</label>
+      <input id="periodoDia" [(ngModel)]="escalaSelecionada.periodoDia" name="periodoDia" />
+
+      <label for="atribuicao">Atribuição</label>
+      <input id="atribuicao" [(ngModel)]="escalaSelecionada.atribuicao" name="atribuicao" />
+
+      <div class="acoes-form">
+        <button (click)="guardar()">Guardar</button>
+        <button type="button" (click)="cancelar()">Cancelar</button>
+      </div>
+    </div>
+  }
+</section>
