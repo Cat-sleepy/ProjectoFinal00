@@ -1,10 +1,19 @@
 <section class="pagina-internos">
   <div class="topo-pagina">
-    <div>
-      <h2>Internos</h2>
-      <p>Gestão de Internos na especialidade de Medicina Interna.</p>
-    </div>
+  <div>
+    <h2>Internos</h2>
+    <p>Gestão de Internos na especialidade de Medicina Interna.</p>
   </div>
+
+  <div class="ordenacao">
+    <label for="ordenar">Ordenar por</label>
+    <select id="ordenar" [(ngModel)]="criterioOrdenacao" (change)="ordenarInternos()" class="campo">
+      <option value="">Selecionar</option>
+      <option value="nome">Nome</option>
+      <option value="ano">Ano de Internato</option>
+    </select>
+  </div>
+</div>
 
   <div class="tabela-container">
     <table>

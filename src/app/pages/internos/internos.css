@@ -6,8 +6,10 @@
 .topo-pagina {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: flex-end;
   margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .topo-pagina h2 {
@@ -121,4 +123,11 @@ tbody tr:hover {
   font-size: 0.85rem;
   margin-top: 4px;
   display: block;
+}
+
+.ordenacao {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 220px;
 }

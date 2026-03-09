@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { InternosService } from '../../shared/services/internosService';
 import { Interno } from '../../shared/models/interno';
@@ -8,7 +8,7 @@ import { Interno } from '../../shared/models/interno';
 @Component({
   selector: 'app-internos',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './internos.html',
   styleUrl: './internos.css'
 })
@@ -140,4 +140,17 @@ export class Internos implements OnDestroy {
     this.internosService.apagarInterno(id);
     this.carregarInternos();
   }
+
+  criterioOrdenacao: string = '';
+  ordenarInternos(): void {
+  if (this.criterioOrdenacao === 'nome') {
+    this.internos.sort((a, b) => a.nome.localeCompare(b.nome, 'pt'));
+  }
+
+  if (this.criterioOrdenacao === 'ano') {
+    this.internos.sort((a, b) => Number(a.anoInternato) - Number(b.anoInternato));
+  }
+}
+
+
 }

@@ -1,0 +1,46 @@
+.pagina-relatorios {
+  margin-top: 60px;
+  padding: 24px;
+}
+
+.topo-pagina {
+  margin-bottom: 24px;
+}
+
+.topo-pagina h2 {
+  margin: 0 0 8px;
+  font-size: 1.75rem;
+}
+
+.topo-pagina p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.kpis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.kpi-card {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.kpi-label {
+  display: block;
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.kpi-valor {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
