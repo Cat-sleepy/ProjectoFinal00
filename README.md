@@ -1,59 +1,72 @@
-# CareGrid
+# CareGrid – Gestão de Escalas de Internos
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.0.
+Aplicação web desenvolvida em Angular para gestão da distribuição de internos na especialidade de Medicina Interna de um hospital.
 
-## Development server
+A aplicação permite gerir internos, criar escalas de trabalho e visualizar indicadores do sistema através de relatórios.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## Funcionalidades principais
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Gestão de Internos
+- Listagem de internos
+- Criação, edição e eliminação de internos
+- Indicação do ano de internato
+- Estado do interno (ativo, indisponível, sem atribuição)
+- Pesquisa por nome
+- Ordenação por nome ou ano de internato
 
-## Code scaffolding
+### Gestão de Escalas
+- Criação de atribuições de escala
+- Associação de internos a cada atribuição
+- Validações de regras de negócio:
+  - Urgência Dia → 3 internos do 1.º ano
+  - Urgência Noite → 1 interno do 1.º ano + 1 de outro ano
+  - Residência Noite → não permite internos do 1.º ano
+  - Um interno não pode estar em mais do que uma atribuição no mesmo dia
+  - Não podem existir duas atribuições iguais no mesmo dia
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Dashboard
+Visualização geral da distribuição mensal de escalas.
 
-```bash
-ng generate component component-name
-```
+### Relatórios
+Apresentação de indicadores (KPIs) do sistema, como:
+- Total de internos
+- Internos indisponíveis
+- Total de escalas criadas
+- Escalas do mês atual
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## Tecnologias utilizadas
 
-## Building
+- Angular
+- TypeScript
+- HTML
+- CSS
+- RxJS
+- LocalStorage (persistência de dados simulada)
 
-To build the project run:
+---
 
-```bash
-ng build
-```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## Instalação e execução
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+1. Clonar o repositório
+  git clone https://github.com/cat-sleepy/ProjectoFinal00
 
-```bash
-ng test
-```
+2. Instalar dependências
+  npm install
 
-## Running end-to-end tests
+3. Executar a aplicação
+   ng serve
 
-For end-to-end (e2e) testing, run:
+4. Abrir no browser
+   http://localhost:4200
 
-```bash
-ng e2e
-```
+---
+## Autora
+Catarina Ferreira
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
