@@ -19,11 +19,17 @@
   z-index: 1000;
 }
 
-.logo {
+.logo-area {
   display: flex;
-  align-items: flex-end;
-  flex: 0 0 auto;
+  align-items: center;
+  gap: 12px;
   cursor: pointer;
+}
+
+.logo {
+  height: 100px;
+  width: auto;
+  display: block;
 }
 
 .logo img {

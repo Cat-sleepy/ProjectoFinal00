@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Dashboard } from './dashboard/dashboard';
+import { Dashboard } from './pages/dashboard/dashboard';
 import { Internos } from './pages/internos/internos';
 import { Escalas } from './pages/escala/escala';
 // import { Indisponibilidades } from './indisponibilidades/indisponibilidades';

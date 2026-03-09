@@ -1,0 +1,28 @@
+
+<section class="pagina-dashboard">
+  <h2>{{ mesAtual }}</h2>
+  <p>Visão geral da distribuição mensal.</p>
+
+  <div class="calendario-mensal">
+    <div class="topo-calendario">
+    </div>
+
+    <div class="calendario-grid">
+      @for (dia of diasCalendario; track $index) {
+        <div class="dia-card">
+          <div class="dia-numero">{{ dia.numero }}</div>
+
+          @if (dia.escalas.length > 0) {
+            @for (escala of dia.escalas; track escala.id) {
+              <div class="escala-item">
+                <strong>{{ escala.atribuicao }}</strong>
+                <small>{{ escala.internos.map(i => i.nome).join(', ') }}</small>
+              </div>
+            }
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>
+

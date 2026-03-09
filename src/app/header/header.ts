@@ -16,10 +16,14 @@ export class Header {
   titulo: string = '';
 
   constructor(
-    private router: Router,
     private internosService: InternosService,
-    private escalaService: EscalaService
-  ) {}
+    private escalaService: EscalaService,
+    private router: Router
+) {}
+
+  irDashboard() {
+  this.router.navigate(['/dashboard']);
+  }
 
   novoInterno() {
     this.router.navigate(['/internos']).then(() => {

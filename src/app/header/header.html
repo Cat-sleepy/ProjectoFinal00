@@ -1,7 +1,8 @@
 <div class="cabecalho">
-  <a class="logo" routerLink="/">
-    <img [src]="logo" alt="Logo CareGrid">
-  </a>
+  <div class="logo-area" (click)="irDashboard()">
+  <img [src]="logo" class="logo" alt="Logo" />
+  <h1>{{ titulo }}</h1>
+</div>
 
   <div class="menu">
     <input type="text" placeholder="Pesquisar..." />
