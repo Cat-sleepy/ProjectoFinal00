@@ -12,34 +12,47 @@ export class EscalaService {
   private atribuirEscalaSource = new Subject<void>();
   atribuirEscala = this.atribuirEscalaSource.asObservable();
 
+  constructor() {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const dadosGuardados = localStorage.getItem('escalas');
+
+      if (dadosGuardados) {
+        const escalasGuardadas = JSON.parse(dadosGuardados);
+
+        this.escalas = escalasGuardadas.map((escala: any) => ({
+          ...escala,
+          id: Number(escala.id),
+          internos: (escala.internos || []).map((interno: any) => ({
+            ...interno,
+            id: Number(interno.id),
+            anoInternato: Number(interno.anoInternato)
+          }))
+        }));
+      } else {
+        this.guardarEscalas();
+      }
+    }
+  }
+
   triggerNovaEscala(): void {
     this.atribuirEscalaSource.next();
   }
 
-  private normalizarAno(ano: unknown): number {
-    if (typeof ano === 'number') return ano;
-
-    if (typeof ano === 'string') {
-      const match = ano.match(/\d+/);
-      return match ? Number(match[0]) : NaN;
+  private guardarEscalas(): void {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('escalas', JSON.stringify(this.escalas));
     }
-
-    return NaN;
-  }
-
-  private normalizarInterno(interno: Interno): Interno {
-    return {
-      ...interno,
-      id: Number(interno.id),
-      anoInternato: this.normalizarAno(interno.anoInternato)
-    };
   }
 
   getEscalas(): Escala[] {
     return this.escalas.map(escala => ({
       ...escala,
       id: Number(escala.id),
-      internos: escala.internos.map(interno => this.normalizarInterno(interno))
+      internos: escala.internos.map((interno: Interno) => ({
+        ...interno,
+        id: Number(interno.id),
+        anoInternato: Number(interno.anoInternato)
+      }))
     }));
   }
 
@@ -49,36 +62,54 @@ export class EscalaService {
         ? Math.max(...this.escalas.map(e => Number(e.id))) + 1
         : 1;
 
-    this.escalas.push({
+    const novaEscala: Escala = {
       ...escala,
       id: novoId,
-      internos: escala.internos.map(interno => this.normalizarInterno(interno))
-    });
+      internos: escala.internos.map(interno => ({
+        ...interno,
+        id: Number(interno.id),
+        anoInternato: Number(interno.anoInternato)
+      }))
+    };
+
+    this.escalas.push(novaEscala);
+    this.guardarEscalas();
   }
 
   editarEscala(escalaAtualizada: Escala): void {
-    const index = this.escalas.findIndex(e => Number(e.id) === Number(escalaAtualizada.id));
+    const index = this.escalas.findIndex(
+      e => Number(e.id) === Number(escalaAtualizada.id)
+    );
 
     if (index !== -1) {
       this.escalas[index] = {
         ...escalaAtualizada,
         id: Number(escalaAtualizada.id),
-        internos: escalaAtualizada.internos.map(interno => this.normalizarInterno(interno))
+        internos: escalaAtualizada.internos.map(interno => ({
+          ...interno,
+          id: Number(interno.id),
+          anoInternato: Number(interno.anoInternato)
+        }))
       };
+
+      this.guardarEscalas();
     }
   }
 
   apagarEscala(id: number): void {
-    this.escalas = this.escalas.filter(e => Number(e.id) !== Number(id));
+    this.escalas = this.escalas.filter(
+      escala => Number(escala.id) !== Number(id)
+    );
+
+    this.guardarEscalas();
   }
 
   validarEscala(escala: Escala): { valida: boolean; mensagem: string } {
-    const internos = escala.internos.map(interno => this.normalizarInterno(interno));
-
-    console.log('A validar escala:', {
-      atribuicao: escala.atribuicao,
-      internos
-    });
+    const internos = escala.internos.map(interno => ({
+      ...interno,
+      id: Number(interno.id),
+      anoInternato: Number(interno.anoInternato)
+    }));
 
     if (escala.atribuicao === 'Urgência Dia') {
       if (internos.length !== 3) {
@@ -164,4 +195,8 @@ export class EscalaService {
       outraEscala.atribuicao === escala.atribuicao
     );
   }
+
+  getEscalaPorId(id: number): Escala | undefined {
+  return this.getEscalas().find(escala => Number(escala.id) === Number(id));
+}
 }

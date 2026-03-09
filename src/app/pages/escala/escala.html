@@ -27,9 +27,10 @@
             <td>{{ escala.internos.map(i => i.nome).join(', ') }}</td>
             <td>{{ escala.atribuicao }}</td>
             <td class="acoes">
-              <button class="btn-secundario" (click)="editar(escala)">Editar</button>
-              <button class="btn-perigo" (click)="apagar(escala.id)">X</button>
-            </td>
+  <button class="btn-secundario" (click)="verDetalhe(escala.id)">Detalhe</button>
+  <button class="btn-secundario" (click)="editar(escala)">Editar</button>
+  <button class="btn-perigo" (click)="apagar(escala.id)">X</button>
+</td>
           </tr>
         } @empty {
           <tr>

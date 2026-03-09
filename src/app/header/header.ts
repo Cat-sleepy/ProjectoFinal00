@@ -7,6 +7,7 @@ import { EscalaService } from '../shared/services/escalaService';
 
 @Component({
   selector: 'app-header',
+  standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './header.html',
   styleUrl: './header.css',
@@ -14,15 +15,16 @@ import { EscalaService } from '../shared/services/escalaService';
 export class Header {
   logo: string = 'logo.png';
   titulo: string = '';
+  textoPesquisa: string = '';
 
   constructor(
     private internosService: InternosService,
     private escalaService: EscalaService,
     private router: Router
-) {}
+  ) {}
 
   irDashboard() {
-  this.router.navigate(['/dashboard']);
+    this.router.navigate(['/dashboard']);
   }
 
   novoInterno() {
@@ -37,4 +39,7 @@ export class Header {
     });
   }
 
+  pesquisarPorNome() {
+    this.internosService.atualizarPesquisaNome(this.textoPesquisa);
+  }
 }

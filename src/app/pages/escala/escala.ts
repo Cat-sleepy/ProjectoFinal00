@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -43,17 +44,18 @@ export class Escalas implements OnDestroy {
   });
 
   constructor(
-    protected escalaService: EscalaService,
-    protected internosService: InternosService
-  ) {
-    this.carregarDados();
+  protected escalaService: EscalaService,
+  protected internosService: InternosService,
+  private router: Router
+) {
+  this.carregarDados();
 
-    if ((this.escalaService as any).atribuirEscala?.subscribe) {
-      this.subAtribuir = (this.escalaService as any).atribuirEscala.subscribe(() => {
-        this.novaEscala();
-      });
-    }
+  if ((this.escalaService as any).atribuirEscala?.subscribe) {
+    this.subAtribuir = (this.escalaService as any).atribuirEscala.subscribe(() => {
+      this.novaEscala();
+    });
   }
+}
 
   ngOnDestroy(): void {
     this.subAtribuir?.unsubscribe();
@@ -233,4 +235,8 @@ export class Escalas implements OnDestroy {
     this.escalaService.apagarEscala(id);
     this.escalas = this.escalaService.getEscalas();
   }
+
+  verDetalhe(id: number): void {
+  this.router.navigate(['/detalhe', id]);
+}
 }

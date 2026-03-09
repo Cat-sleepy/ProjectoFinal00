@@ -1,0 +1,74 @@
+.pagina-detalhe {
+  margin-top: 60px;
+  padding: 24px;
+}
+
+.topo-detalhe {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.topo-detalhe h2 {
+  margin: 0 0 8px;
+  font-size: 1.75rem;
+}
+
+.topo-detalhe p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.card-detalhe {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  padding: 24px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.linha {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 18px;
+}
+
+.etiqueta {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.bloco-internos {
+  margin-top: 28px;
+}
+
+.interno-card {
+  background: rgba(99, 102, 241, 0.06);
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.interno-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+}
+
+.interno-card p {
+  margin: 4px 0;
+}
+
+.btn-voltar {
+  height: 40px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 12px;
+  background: var(--primary-color);
+  color: white;
+  cursor: pointer;
+}

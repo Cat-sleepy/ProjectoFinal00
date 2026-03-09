@@ -5,7 +5,12 @@
 </div>
 
   <div class="menu">
-    <input type="text" placeholder="Pesquisar..." />
+    <input
+      type="text"
+      placeholder="Pesquisar por nome..."
+      [(ngModel)]="textoPesquisa"
+      (input)="pesquisarPorNome()"
+    />
 
     <div class="opcoes">
       <button (click)="novaAtribuicao()">Nova Atribuição</button>

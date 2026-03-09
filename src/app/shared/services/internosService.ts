@@ -114,4 +114,9 @@ export class InternosService {
 
   }
 
+  pesquisaNome = new Subject<string>();
+  atualizarPesquisaNome(texto: string) {
+  this.pesquisaNome.next(texto);
+}
+
 }

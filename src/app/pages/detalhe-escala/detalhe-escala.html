@@ -1,0 +1,37 @@
+<section class="pagina-detalhe" *ngIf="escala as e">
+  <div class="topo-detalhe">
+    <div>
+      <h2>Detalhe da Escala</h2>
+      <p>Informação completa da atribuição selecionada.</p>
+    </div>
+
+    <button class="btn-voltar" (click)="voltar()">Voltar</button>
+  </div>
+
+  <div class="card-detalhe">
+    <div class="linha">
+      <span class="etiqueta">ID</span>
+      <strong>{{ e.id }}</strong>
+    </div>
+
+    <div class="linha">
+      <span class="etiqueta">Data</span>
+      <strong>{{ e.data | date:'dd/MM/yyyy' }}</strong>
+    </div>
+
+    <div class="linha">
+      <span class="etiqueta">Atribuição</span>
+      <strong>{{ e.atribuicao }}</strong>
+    </div>
+
+    <div class="bloco-internos">
+      <span class="etiqueta">Internos atribuídos</span>
+
+      <div class="interno-card" *ngFor="let interno of e.internos">
+        <h3>{{ interno.nome }}</h3>
+        <p><strong>Ano de internato:</strong> {{ interno.anoInternato }}.º</p>
+        <p><strong>Estado:</strong> {{ interno.estado }}</p>
+      </div>
+    </div>
+  </div>
+</section>

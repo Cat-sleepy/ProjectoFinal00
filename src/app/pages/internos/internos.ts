@@ -1,18 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { InternosService } from '../../shared/services/internosService';
 import { Interno } from '../../shared/models/interno';
 
 @Component({
   selector: 'app-internos',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './internos.html',
   styleUrl: './internos.css'
 })
-export class Internos {
+export class Internos implements OnDestroy {
   internos: Interno[] = [];
+  todosInternos: Interno[] = [];
   internoSelecionado: Interno | null = null;
+
+  private subNovoInterno?: Subscription;
+  private subPesquisa?: Subscription;
 
   internoForm = new FormGroup({
     nome: new FormControl('', {
@@ -30,14 +36,41 @@ export class Internos {
   });
 
   constructor(protected internosService: InternosService) {
-    this.internos = this.internosService.getInternos();
+    this.carregarInternos();
 
-    this.internosService.abrirNovoInterno.subscribe(() => {
+    this.subNovoInterno = this.internosService.abrirNovoInterno.subscribe(() => {
       this.novoInterno();
+    });
+
+    this.subPesquisa = this.internosService.pesquisaNome.subscribe(texto => {
+      this.filtrarPorNome(texto);
     });
   }
 
-  novoInterno() {
+  ngOnDestroy(): void {
+    this.subNovoInterno?.unsubscribe();
+    this.subPesquisa?.unsubscribe();
+  }
+
+  carregarInternos(): void {
+    this.todosInternos = this.internosService.getInternos();
+    this.internos = [...this.todosInternos];
+  }
+
+  filtrarPorNome(texto: string): void {
+    const termo = texto.trim().toLowerCase();
+
+    if (!termo) {
+      this.internos = [...this.todosInternos];
+      return;
+    }
+
+    this.internos = this.todosInternos.filter(interno =>
+      interno.nome.toLowerCase().includes(termo)
+    );
+  }
+
+  novoInterno(): void {
     this.internoSelecionado = {
       id: 0,
       nome: '',
@@ -52,17 +85,17 @@ export class Internos {
     });
   }
 
-  editar(interno: Interno) {
+  editar(interno: Interno): void {
     this.internoSelecionado = { ...interno };
 
     this.internoForm.setValue({
       nome: interno.nome,
-      anoInternato: interno.anoInternato,
+      anoInternato: Number(interno.anoInternato),
       estado: interno.estado
     });
   }
 
-  guardar() {
+  guardar(): void {
     if (!this.internoSelecionado) return;
 
     if (this.internoForm.invalid) {
@@ -83,7 +116,7 @@ export class Internos {
       this.internosService.editarInterno(interno);
     }
 
-    this.internos = this.internosService.getInternos();
+    this.carregarInternos();
     this.internoSelecionado = null;
 
     this.internoForm.reset({
@@ -93,7 +126,7 @@ export class Internos {
     });
   }
 
-  cancelar() {
+  cancelar(): void {
     this.internoSelecionado = null;
 
     this.internoForm.reset({
@@ -103,8 +136,8 @@ export class Internos {
     });
   }
 
-  apagar(id: number) {
+  apagar(id: number): void {
     this.internosService.apagarInterno(id);
-    this.internos = this.internosService.getInternos();
+    this.carregarInternos();
   }
 }
