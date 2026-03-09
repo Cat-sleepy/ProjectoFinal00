@@ -105,11 +105,13 @@ export class EscalaService {
   }
 
   validarEscala(escala: Escala): { valida: boolean; mensagem: string } {
-    const internos = escala.internos.map(interno => ({
+    const internos = escala.internos
+    .filter(i => i && i.id)
+    .map(interno => ({
       ...interno,
       id: Number(interno.id),
       anoInternato: Number(interno.anoInternato)
-    }));
+  }));
 
     if (escala.atribuicao === 'Urgência Dia') {
       if (internos.length !== 3) {

@@ -20,7 +20,7 @@ import { Interno } from '../../shared/models/interno';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './escala.html',
-  styleUrls: ['./escala.css'],
+  styleUrls: ['./escala.css']
 })
 export class Escalas implements OnDestroy {
   escalas: Escala[] = [];
@@ -44,25 +44,27 @@ export class Escalas implements OnDestroy {
   });
 
   constructor(
-  protected escalaService: EscalaService,
-  protected internosService: InternosService,
-  private router: Router
-) {
-  this.carregarDados();
+    protected escalaService: EscalaService,
+    protected internosService: InternosService,
+    private router: Router
+  ) {
+    this.carregarDados();
 
-  if ((this.escalaService as any).atribuirEscala?.subscribe) {
-    this.subAtribuir = (this.escalaService as any).atribuirEscala.subscribe(() => {
-      this.novaEscala();
-    });
+    if ((this.escalaService as any).atribuirEscala?.subscribe) {
+      this.subAtribuir = (this.escalaService as any).atribuirEscala.subscribe(() => {
+        this.novaEscala();
+      });
+    }
   }
-}
 
   ngOnDestroy(): void {
     this.subAtribuir?.unsubscribe();
   }
 
   private normalizarAno(ano: unknown): number {
-    if (typeof ano === 'number') return ano;
+    if (typeof ano === 'number' && !Number.isNaN(ano)) {
+      return ano;
+    }
 
     if (typeof ano === 'string') {
       const match = ano.match(/\d+/);
@@ -82,7 +84,6 @@ export class Escalas implements OnDestroy {
 
   carregarDados(): void {
     this.escalas = this.escalaService.getEscalas();
-
     this.internosDisponiveis = this.internosService
       .getInternos()
       .map(interno => this.normalizarInterno(interno));
@@ -119,35 +120,32 @@ export class Escalas implements OnDestroy {
   }
 
   ajustarInternosPorAtribuicao(): void {
-    if (!this.escalaSelecionada || this.internosDisponiveis.length === 0) return;
+    if (!this.escalaSelecionada) return;
 
     const atribuicaoSelecionada = this.escalaForm.value.atribuicao ?? 'Urgência Dia';
     this.escalaSelecionada.atribuicao = atribuicaoSelecionada;
 
     if (atribuicaoSelecionada === 'Urgência Dia') {
       this.escalaSelecionada.internos = [
-        this.escalaSelecionada.internos[0] || this.internosDisponiveis[0],
-        this.escalaSelecionada.internos[1] || this.internosDisponiveis[1] || this.internosDisponiveis[0],
-        this.escalaSelecionada.internos[2] || this.internosDisponiveis[2] || this.internosDisponiveis[0]
-      ].map(interno => this.normalizarInterno(interno));
-    }
-
-    if (atribuicaoSelecionada === 'Urgência Noite') {
+        this.escalaSelecionada.internos[0] ?? null,
+        this.escalaSelecionada.internos[1] ?? null,
+        this.escalaSelecionada.internos[2] ?? null
+      ].filter((i): i is Interno => i !== null);
+    } else if (atribuicaoSelecionada === 'Urgência Noite') {
       this.escalaSelecionada.internos = [
-        this.escalaSelecionada.internos[0] || this.internosDisponiveis[0],
-        this.escalaSelecionada.internos[1] || this.internosDisponiveis[1] || this.internosDisponiveis[0]
-      ].map(interno => this.normalizarInterno(interno));
-    }
-
-    if (atribuicaoSelecionada === 'Residência Noite') {
-      this.escalaSelecionada.internos = [
-        this.escalaSelecionada.internos[0] || this.internosDisponiveis[0]
-      ].map(interno => this.normalizarInterno(interno));
+        this.escalaSelecionada.internos[0] ?? null,
+        this.escalaSelecionada.internos[1] ?? null
+      ].filter((i): i is Interno => i !== null);
+    } else {
+      this.escalaSelecionada.internos = this.escalaSelecionada.internos[0]
+        ? [this.escalaSelecionada.internos[0]]
+        : [];
     }
   }
 
-  atualizarInterno(index: number, internoId: string): void {
+  atualizarInterno(index: number, internoId: number | null): void {
     if (!this.escalaSelecionada) return;
+    if (internoId === null || internoId === undefined) return;
 
     const interno = this.internosDisponiveis.find(
       i => Number(i.id) === Number(internoId)
@@ -173,11 +171,15 @@ export class Escalas implements OnDestroy {
 
     this.escalaSelecionada.data = this.escalaForm.value.data!;
     this.escalaSelecionada.atribuicao = this.escalaForm.value.atribuicao!;
-    this.escalaSelecionada.internos = this.escalaSelecionada.internos.map(interno =>
-      this.normalizarInterno(interno)
-    );
 
-    console.log('Internos a guardar:', this.escalaSelecionada.internos);
+    console.log(
+      'internos antes de validar',
+      this.escalaSelecionada.internos.map(i => ({
+        nome: i?.nome,
+        id: i?.id,
+        anoInternato: i?.anoInternato
+      }))
+    );
 
     if (this.temInternosDuplicadosNaMesmaEscala(this.escalaSelecionada)) {
       alert('Não podes selecionar o mesmo interno duas vezes na mesma atribuição.');
@@ -237,6 +239,6 @@ export class Escalas implements OnDestroy {
   }
 
   verDetalhe(id: number): void {
-  this.router.navigate(['/detalhe', id]);
-}
+    this.router.navigate(['/detalhe', id]);
+  }
 }
