@@ -83,3 +83,42 @@ tbody tr:hover {
   background: #fee2e2;
   color: #b91c1c;
 }
+
+.erro {
+  color: #b91c1c;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  display: block;
+}
+
+.campo {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* campo válido */
+.campo.ng-valid.ng-touched {
+  border-color: #16a34a;
+}
+
+/* campo inválido */
+.campo.ng-invalid.ng-touched {
+  border-color: #dc2626;
+}
+
+/* foco */
+.campo:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.15);
+}
+
+.erro {
+  color: #b91c1c;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  display: block;
+}

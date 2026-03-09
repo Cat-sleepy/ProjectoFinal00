@@ -4,7 +4,6 @@
       <h2>Internos</h2>
       <p>Gestão de Internos na especialidade de Medicina Interna.</p>
     </div>
-
   </div>
 
   <div class="tabela-container">
@@ -42,26 +41,36 @@
     <div class="form-edicao">
       <h3>Adicionar/Editar Interno</h3>
 
-      <label for="nome">Nome</label>
-      <input id="nome" [(ngModel)]="internoSelecionado.nome" name="nome" />
+      <form [formGroup]="internoForm">
+        <label for="nome">Nome</label>
+        <input id="nome" formControlName="nome" class="campo" />
+        @if (internoForm.controls.nome.touched && internoForm.controls.nome.invalid) {
+          <small class="erro">O nome é obrigatório.</small>
+        }
 
-      <label for="anoInternato">Ano de Internato</label>
-      <input
-        id="anoInternato"
-        type="number"
-        [(ngModel)]="internoSelecionado.anoInternato"
-        name="anoInternato"
-        min="1"
-        max="5"
-      />
+        <label for="anoInternato">Ano de Internato</label>
+          <select id="anoInternato" formControlName="anoInternato" class="campo">
+          <option [ngValue]="1">1.º Ano</option>
+          <option [ngValue]="2">2.º Ano</option>
+          <option [ngValue]="3">3.º Ano</option>
+          <option [ngValue]="4">4.º Ano</option>
+          <option [ngValue]="5">5.º Ano</option>
+        </select>
+        @if (internoForm.controls.anoInternato.touched && internoForm.controls.anoInternato.invalid) {
+          <small class="erro">O ano de internato deve estar entre 1 e 5.</small>
+        }
 
-      <label for="estado">Estado</label>
-      <input id="estado" [(ngModel)]="internoSelecionado.estado" name="estado" />
+        <label for="estado">Estado</label>
+        <input id="estado" formControlName="estado" class="campo" />
+        @if (internoForm.controls.estado.touched && internoForm.controls.estado.invalid) {
+          <small class="erro">O estado é obrigatório.</small>
+        }
 
-      <div class="acoes-form">
-        <button (click)="guardar()">Guardar</button>
-        <button type="button" (click)="cancelar()">Cancelar</button>
-      </div>
+        <div class="acoes-form">
+          <button type="button" (click)="guardar()">Guardar</button>
+          <button type="button" (click)="cancelar()">Cancelar</button>
+        </div>
+      </form>
     </div>
   }
 </section>

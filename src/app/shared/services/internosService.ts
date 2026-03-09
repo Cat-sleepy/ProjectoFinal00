@@ -6,6 +6,7 @@ import { Interno } from '../models/interno';
   providedIn: 'root'
 })
 export class InternosService {
+
   abrirNovoInterno = new Subject<void>();
 
   internos: Interno[] = [
@@ -15,55 +16,102 @@ export class InternosService {
   ];
 
   constructor() {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    const dadosGuardados = localStorage.getItem('internos');
 
-    if (dadosGuardados) {
-      this.internos = JSON.parse(dadosGuardados);
-    } else {
-      this.guardarInternos();
+    if (typeof window !== 'undefined' && window.localStorage) {
+
+      const dadosGuardados = localStorage.getItem('internos');
+
+      if (dadosGuardados) {
+
+        const internosGuardados = JSON.parse(dadosGuardados);
+
+        this.internos = internosGuardados.map((interno: any) => ({
+          ...interno,
+          id: Number(interno.id),
+          anoInternato: Number(interno.anoInternato)
+        }));
+
+      } else {
+
+        this.guardarInternos();
+
+      }
+
     }
+
   }
-}
 
   triggerNovoInterno() {
     this.abrirNovoInterno.next();
   }
 
   guardarInternos() {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    localStorage.setItem('internos', JSON.stringify(this.internos));
+
+    if (typeof window !== 'undefined' && window.localStorage) {
+
+      localStorage.setItem('internos', JSON.stringify(this.internos));
+
+    }
+
   }
-}
 
   getInternos(): Interno[] {
-    return this.internos;
+
+    return this.internos.map(interno => ({
+      ...interno,
+      id: Number(interno.id),
+      anoInternato: Number(interno.anoInternato)
+    }));
+
   }
 
   criarInterno(novoInterno: Interno) {
+
     const novoId =
       this.internos.length > 0
-        ? Math.max(...this.internos.map(i => i.id)) + 1
+        ? Math.max(...this.internos.map(i => Number(i.id))) + 1
         : 1;
 
-    novoInterno.id = novoId;
-    this.internos.push(novoInterno);
+    const internoNormalizado: Interno = {
+      ...novoInterno,
+      id: novoId,
+      anoInternato: Number(novoInterno.anoInternato)
+    };
+
+    this.internos.push(internoNormalizado);
+
     this.guardarInternos();
+
   }
 
   apagarInterno(id: number) {
-    this.internos = this.internos.filter(interno => interno.id !== id);
+
+    this.internos = this.internos.filter(
+      interno => Number(interno.id) !== Number(id)
+    );
+
     this.guardarInternos();
+
   }
 
   editarInterno(internoAtualizado: Interno) {
+
     const index = this.internos.findIndex(
-      interno => interno.id === internoAtualizado.id
+      interno => Number(interno.id) === Number(internoAtualizado.id)
     );
 
     if (index !== -1) {
-      this.internos[index] = internoAtualizado;
+
+      this.internos[index] = {
+        ...internoAtualizado,
+        id: Number(internoAtualizado.id),
+        anoInternato: Number(internoAtualizado.anoInternato)
+      };
+
       this.guardarInternos();
+
     }
+
   }
+
 }

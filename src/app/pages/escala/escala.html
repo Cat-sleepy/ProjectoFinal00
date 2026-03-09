@@ -5,19 +5,9 @@
       <p>Gestão da escala dos internos da especialidade de Medicina Interna.</p>
     </div>
 
-    <div class="topo-acoes">
-      <button class="btn-secundario">Mensal</button>
-      <button class="btn-secundario">Trimestral</button>
-    </div>
   </div>
 
-  <div class="filtros">
-    <input type="month" />
-
-    <select>
-      <option value="">Todos os internos</option>
-    </select>
-  </div>
+  
 
   <div class="tabela-container">
     <table>
@@ -50,105 +40,126 @@
     </table>
   </div>
 
-  @if (escalaSelecionada) {
+@if (escalaSelecionada) {
   <div class="form-edicao">
     <h3>{{ escalaSelecionada.id === 0 ? 'Nova Atribuição' : 'Editar Escala' }}</h3>
 
-    <label for="data">Data</label>
-    <input
-  id="data"
-  type="date"
-  [(ngModel)]="escalaSelecionada.data"
-  name="data"
-  min="2026-01-01"
-/>
-    <label for="atribuicao">Atribuição</label>
-    <select
-      id="atribuicao"
-      [(ngModel)]="escalaSelecionada.atribuicao"
-      name="atribuicao"
-      (change)="ajustarInternosPorAtribuicao()"
-    >
-      <option value="Urgência Dia">Urgência Dia</option>
-      <option value="Urgência Noite">Urgência Noite</option>
-      <option value="Residência Noite">Residência Noite</option>
-    </select>
+    <form [formGroup]="escalaForm">
+      <label for="data">Data</label>
+      <input id="data" type="date" formControlName="data" class="campo" />
+      @if (escalaForm.controls.data.touched && escalaForm.controls.data.invalid) {
+        <small class="erro">A data é obrigatória.</small>
+      }
 
-    @if (escalaSelecionada.atribuicao === 'Urgência Dia') {
-      <label>Interno 1</label>
+      <label for="atribuicao">Atribuição</label>
       <select
-        [ngModel]="escalaSelecionada.internos[0]?.id"
-        (ngModelChange)="atualizarInterno(0, $event)"
-        name="interno1"
+        id="atribuicao"
+        formControlName="atribuicao"
+        class="campo"
+        (change)="ajustarInternosPorAtribuicao()"
       >
-        @for (interno of internosDisponiveis; track interno.id) {
-          <option [value]="interno.id">{{ interno.nome }} - {{ interno.anoInternato }}.º ano</option>
-        }
+        <option value="Urgência Dia">Urgência Dia</option>
+        <option value="Urgência Noite">Urgência Noite</option>
+        <option value="Residência Noite">Residência Noite</option>
       </select>
+      @if (escalaForm.controls.atribuicao.touched && escalaForm.controls.atribuicao.invalid) {
+        <small class="erro">A atribuição é obrigatória.</small>
+      }
 
-      <label>Interno 2</label>
-      <select
-        [ngModel]="escalaSelecionada.internos[1]?.id"
-        (ngModelChange)="atualizarInterno(1, $event)"
-        name="interno2"
-      >
-        @for (interno of internosDisponiveis; track interno.id) {
-          <option [value]="interno.id">{{ interno.nome }} - {{ interno.anoInternato }}.º ano</option>
-        }
-      </select>
+      @if (escalaSelecionada.atribuicao === 'Urgência Dia') {
+        <label>Interno 1</label>
+        <select
+          [ngModel]="escalaSelecionada.internos[0]?.id"
+          (ngModelChange)="atualizarInterno(0, $any($event))"
+          name="interno1"
+          class="campo"
+        >
+          @for (interno of internosDisponiveis; track interno.id) {
+            <option [value]="interno.id">
+              {{ interno.nome }} - {{ interno.anoInternato }}.º ano
+            </option>
+          }
+        </select>
 
-      <label>Interno 3</label>
-      <select
-        [ngModel]="escalaSelecionada.internos[2]?.id"
-        (ngModelChange)="atualizarInterno(2, $event)"
-        name="interno3"
-      >
-        @for (interno of internosDisponiveis; track interno.id) {
-          <option [value]="interno.id">{{ interno.nome }} - {{ interno.anoInternato }}.º ano</option>
-        }
-      </select>
-    }
+        <label>Interno 2</label>
+        <select
+          [ngModel]="escalaSelecionada.internos[1]?.id"
+          (ngModelChange)="atualizarInterno(1, $any($event))"
+          name="interno2"
+          class="campo"
+        >
+          @for (interno of internosDisponiveis; track interno.id) {
+            <option [value]="interno.id">
+              {{ interno.nome }} - {{ interno.anoInternato }}.º ano
+            </option>
+          }
+        </select>
 
-    @if (escalaSelecionada.atribuicao === 'Urgência Noite') {
-      <label>Interno 1</label>
-      <select
-        [ngModel]="escalaSelecionada.internos[0]?.id"
-        (ngModelChange)="atualizarInterno(0, $event)"
-        name="interno1"
-      >
-        @for (interno of internosDisponiveis; track interno.id) {
-          <option [value]="interno.id">{{ interno.nome }} - {{ interno.anoInternato }}.º ano</option>
-        }
-      </select>
+        <label>Interno 3</label>
+        <select
+          [ngModel]="escalaSelecionada.internos[2]?.id"
+          (ngModelChange)="atualizarInterno(2, $any($event))"
+          name="interno3"
+          class="campo"
+        >
+          @for (interno of internosDisponiveis; track interno.id) {
+            <option [value]="interno.id">
+              {{ interno.nome }} - {{ interno.anoInternato }}.º ano
+            </option>
+          }
+        </select>
+      }
 
-      <label>Interno 2</label>
-      <select
-        [ngModel]="escalaSelecionada.internos[1]?.id"
-        (ngModelChange)="atualizarInterno(1, $event)"
-        name="interno2"
-      >
-        @for (interno of internosDisponiveis; track interno.id) {
-          <option [value]="interno.id">{{ interno.nome }} - {{ interno.anoInternato }}.º ano</option>
-        }
-      </select>
-    }
+      @if (escalaSelecionada.atribuicao === 'Urgência Noite') {
+        <label>Interno 1</label>
+        <select
+          [ngModel]="escalaSelecionada.internos[0]?.id"
+          (ngModelChange)="atualizarInterno(0, $any($event))"
+          name="interno1"
+          class="campo"
+        >
+          @for (interno of internosDisponiveis; track interno.id) {
+            <option [value]="interno.id">
+              {{ interno.nome }} - {{ interno.anoInternato }}.º ano
+            </option>
+          }
+        </select>
 
-    @if (escalaSelecionada.atribuicao === 'Residência Noite') {
-      <label>Interno</label>
-      <select
-        [ngModel]="escalaSelecionada.internos[0]?.id"
-        (ngModelChange)="atualizarInterno(0, $event)"
-        name="interno1"
-      >
-        @for (interno of internosDisponiveis; track interno.id) {
-          <option [value]="interno.id">{{ interno.nome }} - {{ interno.anoInternato }}.º ano</option>
-        }
-      </select>
-    }
+        <label>Interno 2</label>
+        <select
+          [ngModel]="escalaSelecionada.internos[1]?.id"
+          (ngModelChange)="atualizarInterno(1, $any($event))"
+          name="interno2"
+          class="campo"
+        >
+          @for (interno of internosDisponiveis; track interno.id) {
+            <option [value]="interno.id">
+              {{ interno.nome }} - {{ interno.anoInternato }}.º ano
+            </option>
+          }
+        </select>
+      }
 
-    <div class="acoes-form">
-      <button (click)="guardar()">Guardar</button>
-      <button type="button" (click)="cancelar()">Cancelar</button>
-    </div>
+      @if (escalaSelecionada.atribuicao === 'Residência Noite') {
+        <label>Interno</label>
+        <select
+          [ngModel]="escalaSelecionada.internos[0]?.id"
+          (ngModelChange)="atualizarInterno(0, $any($event))"
+          name="interno1"
+          class="campo"
+        >
+          @for (interno of internosDisponiveis; track interno.id) {
+            <option [value]="interno.id">
+              {{ interno.nome }} - {{ interno.anoInternato }}.º ano
+            </option>
+          }
+        </select>
+      }
+
+      <div class="acoes-form">
+        <button type="button" (click)="guardar()">Guardar</button>
+        <button type="button" (click)="cancelar()">Cancelar</button>
+      </div>
+    </form>
   </div>
 }
