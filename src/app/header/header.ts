@@ -28,10 +28,10 @@ export class Header {
   }
 
   novoInterno() {
-    this.router.navigate(['/internos']).then(() => {
-      this.internosService.triggerNovoInterno();
-    });
-  }
+  this.router.navigate(['/internos']).then(() => {
+    this.internosService.triggerNovoInterno();
+  });
+}
 
   novaAtribuicao() {
     this.router.navigate(['/escala']).then(() => {

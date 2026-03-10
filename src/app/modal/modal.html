@@ -1,0 +1,32 @@
+<div class="modal-overlay" (click)="fechar()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="topo-modal">
+      <h2>{{ estaEmModoEdicao ? 'Editar Interno' : 'Novo Interno' }}</h2>
+      <button type="button" class="btn-fechar" (click)="fechar()">×</button>
+    </div>
+
+    <form [formGroup]="internoForm" class="form-modal">
+      <label for="nome">Nome</label>
+      <input id="nome" formControlName="nome" class="campo" />
+
+      <label for="anoInternato">Ano de Internato</label>
+      <select id="anoInternato" formControlName="anoInternato" class="campo">
+        <option [ngValue]="1">1.º Ano</option>
+        <option [ngValue]="2">2.º Ano</option>
+        <option [ngValue]="3">3.º Ano</option>
+        <option [ngValue]="4">4.º Ano</option>
+        <option [ngValue]="5">5.º Ano</option>
+      </select>
+
+      <label for="estado">Estado</label>
+      <input id="estado" formControlName="estado" class="campo" />
+
+      <div class="acoes-form">
+        <button type="button" class="btn-secundario" (click)="fechar()">Cancelar</button>
+        <button type="button" class="btn-primario" (click)="guardar()">
+          {{ estaEmModoEdicao ? 'Atualizar' : 'Guardar' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
