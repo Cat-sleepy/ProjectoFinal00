@@ -27,3 +27,5 @@ export class App implements OnInit {
     });
   }
 }
+
+let ar=123;
