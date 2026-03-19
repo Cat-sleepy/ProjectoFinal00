@@ -1,0 +1,214 @@
+<div class="register-container">
+  <div class="background-accent"></div>
+
+  <div class="register-card">
+    <div class="register-header">
+      <h1>Criar Conta</h1>
+    </div>
+
+    @if (successMessage) {
+      <div class="success-message">
+        {{ successMessage }}
+      </div>
+    }
+
+    @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+    }
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+      <div class="form-group">
+        <label for="name">Nome</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          class="form-input"
+          placeholder="João Silva"
+          [class.error]="submitted && f['name'].errors"
+          autocomplete="name"
+        />
+        @if (submitted && f['name'].errors) {
+          <small class="error-text">
+            @if (f['name'].errors['required']) {
+              <span>Nome obrigatório</span>
+            }
+            @if (f['name'].errors['minlength']) {
+              <span>Mínimo 2 caracteres</span>
+            }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="form-input"
+          placeholder="seu@email.com"
+          [class.error]="submitted && f['email'].errors"
+          autocomplete="email"
+        />
+        @if (submitted && f['email'].errors) {
+          <small class="error-text">
+            @if (f['email'].errors['required']) {
+              <span>Email obrigatório</span>
+            }
+            @if (f['email'].errors['email']) {
+              <span>Digite um email válido</span>
+            }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <div class="password-label">
+          <label for="password">Senha</label>
+          <span class="password-strength" [ngClass]="'strength-' + passwordStrength">
+            {{ passwordStrengthLabel }}
+          </span>
+        </div>
+
+        <div class="password-input-wrapper">
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            class="form-input"
+            placeholder="Aa123456."
+            [class.error]="submitted && f['password'].errors"
+            autocomplete="new-password"
+            (input)="checkPasswordStrength(f['password'].value)"
+          />
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword ? 'Ocultar senha' : 'Mostrar senha'"
+          >
+            @if (!showPassword) {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            }
+            @if (showPassword) {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            }
+          </button>
+        </div>
+
+        <div class="password-strength-bar">
+          <div class="strength-level" [ngClass]="'level-' + passwordStrength"></div>
+        </div>
+
+        @if (submitted && f['password'].errors) {
+          <small class="error-text">
+            @if (f['password'].errors['required']) {
+              <span>Senha é obrigatória</span>
+            }
+            @if (f['password'].errors['minlength']) {
+              <span>Mínimo 6 caracteres</span>
+            }
+          </small>
+        }
+
+        <small class="info-text">
+          Use maiúsculas, minúsculas, números e símbolos para maior segurança
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirmar senha</label>
+        <div class="password-input-wrapper">
+          <input
+            id="confirmPassword"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            class="form-input"
+            [class.error]="submitted && (f['confirmPassword'].errors || registerForm.errors?.['passwordMismatch'])"
+            autocomplete="new-password"
+          />
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="toggleConfirmPasswordVisibility()"
+            [attr.aria-label]="showConfirmPassword ? 'Ocultar senha' : 'Mostrar senha'"
+          >
+            @if (!showConfirmPassword) {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            }
+            @if (showConfirmPassword) {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            }
+          </button>
+        </div>
+
+        @if (submitted && f['confirmPassword'].errors) {
+          <small class="error-text">
+            <span>Confirmação obrigatória</span>
+          </small>
+        }
+
+        @if (submitted && registerForm.errors?.['passwordMismatch']) {
+          <small class="error-text">
+            <span>As senhas não coincidem</span>
+          </small>
+        }
+      </div>
+
+      <div class="form-group checkbox-group">
+        <input id="terms" type="checkbox" formControlName="terms" />
+        <label for="terms">Aceito os termos e condições</label>
+      </div>
+
+      @if (submitted && f['terms'].errors) {
+        <small class="error-text">
+          <span>Tens de aceitar os termos</span>
+        </small>
+      }
+
+      <button
+        type="submit"
+        class="submit-button"
+        [disabled]="loading"
+      >
+        @if (!loading) {
+          <span>Criar conta</span>
+        }
+        @if (loading) {
+          <span class="loading-spinner">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10" opacity="0.2"></circle>
+              <path d="M12 2A10 10 0 0 0 12 22"></path>
+            </svg>
+            Criando...
+          </span>
+        }
+      </button>
+    </form>
+
+    <div class="register-footer">
+      <p>Já tem conta?
+        <a href="javascript:void(0)" (click)="goToLogin()" class="link">Fazer login</a>
+      </p>
+    </div>
+
+    <button type="button" class="test-button" (click)="fillTestData()">
+      Preencher dados de teste
+    </button>
+  </div>
+</div>

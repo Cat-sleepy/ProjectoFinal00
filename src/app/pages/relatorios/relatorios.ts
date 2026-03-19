@@ -22,7 +22,9 @@ export class Relatorios {
   escalasMesAtual = 0;
 
   constructor(
+    // eslint-disable-next-line @angular-eslint/prefer-inject
     private internosService: InternosService,
+    // eslint-disable-next-line @angular-eslint/prefer-inject
     private escalaService: EscalaService
   ) {
     this.carregarDados();

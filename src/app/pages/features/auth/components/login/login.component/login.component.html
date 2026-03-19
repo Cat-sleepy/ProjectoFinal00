@@ -1,0 +1,120 @@
+<div class="login-container">
+  <div class="background-accent"></div>
+
+  <div class="login-card">
+    <!-- Header -->
+    <div class="login-header">
+      <h1>Bem-vindo</h1>
+      <p>Acesse sua conta para continuar</p>
+    </div>
+
+    <!-- Mensagem de erro -->
+    @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+    }
+
+    <!-- FormulÃ¡rio -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <!-- Campo Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="form-input"
+          placeholder="seu@email.com"
+          [class.error]="submitted && f['email'].errors"
+          autocomplete="email"
+        />
+        @if (submitted && f['email'].errors) {
+          <small class="error-text">
+            @if (f['email'].errors['required']) {
+              <span>Email Ã© obrigatÃ³rio</span>
+            }
+            @if (f['email'].errors['email']) {
+              <span>Digite um email vÃ¡lido</span>
+            }
+          </small>
+        }
+      </div>
+
+      <!-- Campo Senha -->
+      <div class="form-group">
+        <div class="password-label">
+          <label for="password">Senha</label>
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword ? 'Ocultar senha' : 'Mostrar senha'"
+          >
+            @if (!showPassword) {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            }
+            @if (showPassword) {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            }
+          </button>
+        </div>
+        <input
+          id="password"
+          [type]="showPassword ? 'text' : 'password'"
+          formControlName="password"
+          class="form-input"
+          placeholder="password"
+          [class.error]="submitted && f['password'].errors"
+          autocomplete="current-password"
+        />
+        @if (submitted && f['password'].errors) {
+          <small class="error-text">
+            @if (f['password'].errors['required']) {
+              <span>A senha é obrigatória</span>
+            }
+            @if (f['password'].errors['minlength']) {
+              <span>Mínimo 6 caracteres</span>
+            }
+          </small>
+        }
+      </div>
+
+      <!-- BotÃ£o Entrar -->
+      <button
+        type="submit"
+        class="submit-button"
+        [disabled]="loading"
+      >
+        @if (!loading) {
+          <span>Entrar</span>
+        }
+        @if (loading) {
+          <span class="loading-spinner">
+          
+            Loading...
+          </span>
+        }
+      </button>
+    </form>
+
+    <!-- Links auxiliares -->
+    <div class="login-footer">
+      <a href="javascript:void(0)" (click)="goToForgotPassword()" class="link">Esqueceu a senha?</a>
+      <span class="divider">â€¢</span>
+      <a href="javascript:void(0)" (click)="goToRegister()" class="link">Criar conta</a>
+    </div>
+
+
+    <!-- BotÃ£o de teste (remover em produÃ§Ã£o) -->
+    <button type="button" class="test-button" (click)="fillTestCredentials()">
+      Preencher credenciais de teste
+    </button>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EscalaService } from '../../shared/services/escalaService';
 import { Escala } from '../../shared/models/escala';
@@ -12,9 +12,10 @@ import { Escala } from '../../shared/models/escala';
 export class Dashboard {
   escalas: Escala[] = [];
   diasCalendario: { numero: number; data: string; escalas: Escala[] }[] = [];
-  mesAtual: string = '';
+  mesAtual = '';
+  private escalaService = inject(EscalaService);
 
-  constructor(private escalaService: EscalaService) {
+  constructor() {
     this.escalas = this.escalaService.getEscalas();
     this.gerarCalendarioMensal();
   }
