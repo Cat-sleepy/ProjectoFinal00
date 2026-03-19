@@ -1,8 +1,8 @@
 <div class="cabecalho">
-  <div class="logo-area" (click)="irDashboard()">
+  <button class="logo-area" (click)="irDashboard()" (keydown.enter)="irDashboard()">
     <img [src]="logo" class="logo" alt="Logo" />
     <h1>{{ titulo }}</h1>
-  </div>
+  </button>
 
   <div class="menu">
     <input

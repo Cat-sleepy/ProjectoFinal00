@@ -44,14 +44,18 @@ export class Escalas implements OnDestroy {
   });
 
   constructor(
+    // eslint-disable-next-line @angular-eslint/prefer-inject
     protected escalaService: EscalaService,
+    // eslint-disable-next-line @angular-eslint/prefer-inject
     protected internosService: InternosService,
+    // eslint-disable-next-line @angular-eslint/prefer-inject
     private router: Router
   ) {
     this.carregarDados();
 
-    if ((this.escalaService as any).atribuirEscala?.subscribe) {
-      this.subAtribuir = (this.escalaService as any).atribuirEscala.subscribe(() => {
+    const escalaServiceAny = this.escalaService as { atribuirEscala?: { subscribe?: (callback: () => void) => Subscription } };
+    if (escalaServiceAny.atribuirEscala?.subscribe) {
+      this.subAtribuir = escalaServiceAny.atribuirEscala.subscribe(() => {
         this.novaEscala();
       });
     }
@@ -71,6 +75,7 @@ export class Escalas implements OnDestroy {
       return match ? Number(match[0]) : NaN;
     }
 
+    alert(`Tipo de dado inválido para o ano: ${typeof ano}. Esperado: número ou string.`);
     return NaN;
   }
 

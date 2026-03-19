@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -20,13 +20,15 @@ export class Internos implements OnDestroy {
   modalAberto = false;
   internoEmEdicao: Interno | null = null;
 
-  criterioOrdenacao: string = '';
+  criterioOrdenacao = '';
 
   private subNovoInterno?: Subscription;
   private subPesquisa?: Subscription;
   private subAtualizacao?: Subscription;
 
-  constructor(protected internosService: InternosService) {
+  private internosService = inject(InternosService);
+
+  constructor() {
     this.carregarInternos();
 
     this.subNovoInterno = this.internosService.abrirNovoInterno.subscribe(() => {
