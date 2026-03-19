@@ -1,5 +1,5 @@
-<div class="modal-overlay" (click)="fechar()">
-  <div class="modal" (click)="$event.stopPropagation()">
+<div class="modal-overlay" (click)="fechar()" (keydown.escape)="fechar()" role="button" tabindex="0">
+  <div class="modal" (click)="$event.stopPropagation()" (keydown.escape)="$event.stopPropagation()" role="button" tabindex="0">
     <div class="topo-modal">
       <h2>{{ estaEmModoEdicao ? 'Editar Interno' : 'Novo Interno' }}</h2>
       <button type="button" class="btn-fechar" (click)="fechar()">×</button>

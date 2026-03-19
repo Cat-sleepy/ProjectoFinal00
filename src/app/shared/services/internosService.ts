@@ -18,9 +18,9 @@ export class InternosService {
       const dadosGuardados = localStorage.getItem('internos');
 
       if (dadosGuardados) {
-        const internosGuardados = JSON.parse(dadosGuardados);
+        const internosGuardados = JSON.parse(dadosGuardados) as unknown[];
 
-        this.internos = internosGuardados.map((interno: any) =>
+        this.internos = internosGuardados.map((interno: unknown) =>
           this.normalizarInterno(interno)
         );
       } else {
@@ -102,11 +102,13 @@ export class InternosService {
     }
   }
 
-  private normalizarInterno(interno: any): Interno {
-    return {
-      ...interno,
-      id: Number(interno.id),
-      anoInternato: Number(interno.anoInternato)
-    };
-  }
+private normalizarInterno(interno: unknown): Interno {
+  const internoObj = interno as Record<string, unknown>;
+  return {
+    id: Number(internoObj['id']),
+    anoInternato: Number(internoObj['anoInternato']),
+    nome: String(internoObj['nome'] || ''),
+    estado: String(internoObj['estado'] || '')
+  };
+}
 }

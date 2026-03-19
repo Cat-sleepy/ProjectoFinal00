@@ -19,15 +19,21 @@ export class EscalaService {
       if (dadosGuardados) {
         const escalasGuardadas = JSON.parse(dadosGuardados);
 
-        this.escalas = escalasGuardadas.map((escala: any) => ({
-          ...escala,
-          id: Number(escala.id),
-          internos: (escala.internos || []).map((interno: any) => ({
-            ...interno,
-            id: Number(interno.id),
-            anoInternato: Number(interno.anoInternato)
-          }))
-        }));
+        this.escalas = escalasGuardadas.map((escala: unknown) => {
+          const escalaObj = escala as Record<string, unknown>;
+          return {
+            ...escalaObj,
+            id: Number(escalaObj['id']),
+            internos: ((escalaObj['internos'] as unknown[]) || []).map((interno: unknown) => {
+              const internoObj = interno as Record<string, unknown>;
+              return {
+                ...internoObj,
+                id: Number(internoObj['id']),
+                anoInternato: Number(internoObj['anoInternato'])
+              };
+            })
+          };
+        });
       } else {
         this.guardarEscalas();
       }

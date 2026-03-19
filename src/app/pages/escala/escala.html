@@ -65,8 +65,9 @@
         }
 
         @if (escalaSelecionada.atribuicao === 'Urgência Dia') {
-          <label>Interno 1</label>
+          <label for="interno1">Interno 1</label>
           <select
+            id="interno1"
             [ngModel]="escalaSelecionada.internos[0]?.id ?? null"
             (ngModelChange)="atualizarInterno(0, $any($event))"
             [ngModelOptions]="{ standalone: true }"
@@ -81,8 +82,9 @@
             }
           </select>
 
-          <label>Interno 2</label>
+          <label for="interno2">Interno 2</label>
           <select
+            id="interno2"
             [ngModel]="escalaSelecionada.internos[1]?.id ?? null"
             (ngModelChange)="atualizarInterno(1, $any($event))"
             [ngModelOptions]="{ standalone: true }"
@@ -97,8 +99,9 @@
             }
           </select>
 
-          <label>Interno 3</label>
+          <label for="interno3">Interno 3</label>
           <select
+            id="interno3"
             [ngModel]="escalaSelecionada.internos[2]?.id ?? null"
             (ngModelChange)="atualizarInterno(2, $any($event))"
             [ngModelOptions]="{ standalone: true }"
@@ -115,8 +118,9 @@
         }
 
         @if (escalaSelecionada.atribuicao === 'Urgência Noite') {
-          <label>Interno 1</label>
+          <label for="interno1Noite">Interno 1</label>
           <select
+            id="interno1Noite"
             [ngModel]="escalaSelecionada.internos[0]?.id ?? null"
             (ngModelChange)="atualizarInterno(0, $any($event))"
             [ngModelOptions]="{ standalone: true }"
@@ -131,8 +135,9 @@
             }
           </select>
 
-          <label>Interno 2</label>
+          <label for="interno2Noite">Interno 2</label>
           <select
+            id="interno2Noite"
             [ngModel]="escalaSelecionada.internos[1]?.id ?? null"
             (ngModelChange)="atualizarInterno(1, $any($event))"
             [ngModelOptions]="{ standalone: true }"
@@ -149,8 +154,9 @@
         }
 
         @if (escalaSelecionada.atribuicao === 'Residência Noite') {
-          <label>Interno</label>
+          <label for="internoResidencia">Interno</label>
           <select
+            id="internoResidencia"
             [ngModel]="escalaSelecionada.internos[0]?.id ?? null"
             (ngModelChange)="atualizarInterno(0, $any($event))"
             [ngModelOptions]="{ standalone: true }"

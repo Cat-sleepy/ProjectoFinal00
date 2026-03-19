@@ -43,6 +43,7 @@ export class ModalComponent implements OnChanges {
     })
   });
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject
   constructor(private internosService: InternosService) {}
 
   ngOnChanges(changes: SimpleChanges): void {

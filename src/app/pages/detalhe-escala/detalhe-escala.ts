@@ -15,8 +15,11 @@ export class DetalheEscala implements OnInit {
   escala: Escala | null = null;
 
   constructor(
+    // eslint-disable-next-line @angular-eslint/prefer-inject
     private route: ActivatedRoute,
+    // eslint-disable-next-line @angular-eslint/prefer-inject
     private router: Router,
+    // eslint-disable-next-line @angular-eslint/prefer-inject
     private escalaService: EscalaService
   ) {}
 
